@@ -48,11 +48,11 @@ function populateStats(bookList) {
 function averageTimePerBook(books) {
     var totalDays = 0;
     books.forEach(book => {
-        totalDays += moment(book.dateFinished).diff(book.dateStarted, 'days') || 1;
-        console.log(book.title, moment(book.dateFinished).diff(book.dateStarted, 'days') || 1, 'days');
+        totalDays += parseFloat(moment(book.dateFinished).diff(book.dateStarted, 'days', true).toFixed(2)) || 1;
+        // console.log(book.title, moment(book.dateFinished).diff(book.dateStarted, 'days', true).toFixed(2) || 1, 'days');
     });
 
-    var avg_time_per_book = totalDays / books.length;
+    var avg_time_per_book = (totalDays / books.length).toFixed(2);
     console.log('Average days to read a book', avg_time_per_book);
     $('#avg-time-book').text(avg_time_per_book + ' days');
 }

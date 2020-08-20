@@ -64,8 +64,9 @@ class Book {
     }
 
     formatDate(jumbledDate) {
+        // e.g. Mon Aug 17 15:10:29 -0700 2020
         var segments = jumbledDate.split(' ');
-        return [segments[2], segments[1], segments[5]].join(' ');
+        return [segments[2], segments[1], segments[5], segments[3]].join(' ');
     }
 
     getGenres() {
