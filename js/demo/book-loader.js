@@ -51,6 +51,7 @@ class Book {
 
     constructor (elem) {
         this.reviewRating = parseInt($(elem).children('rating').text()) || 0;
+        this.dateStarted = this.formatDate($(elem).children('started_at').text());
         this.dateFinished = this.formatDate($(elem).children('read_at').text());
         var book = $(elem).children('book')[0];
         this.title = $(book).children('title').text();
@@ -58,6 +59,7 @@ class Book {
         this.imageUrl = $(book).children('image_url').text();
         this.isbn = $(book).children('isbn').text();
         this.genres = [];
+        if (this.isbn == '') return;
         this.getGenres().then(response => this.genres = response);
     }
 

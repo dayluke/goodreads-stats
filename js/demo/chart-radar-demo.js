@@ -35,7 +35,7 @@ function loadRadarChart(genreList) {
         options: {
             scale: {
                 ticks: {
-                    stepSize: 1,
+                    maxTicksLimit: 5,
                     suggestedMin: 0,
                     suggestedMax: Math.round(getRadarData(items, 'data')[0] / 5) * 5
                 }
