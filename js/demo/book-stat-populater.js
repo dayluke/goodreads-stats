@@ -33,11 +33,12 @@ function populateStats(bookList) {
     setTimeout(() => {
         bookList.forEach(book => {
             if (book.genres) {
-                book.genres.forEach(genre => allGenres.push(genre));
+                book.genres.forEach(genre => allGenres.push(genre.replace('-', ' ')));
             }
         })
-        var modeGenre = mode(allGenres).replace('-', ' ');
+        var modeGenre = mode(allGenres);
         console.log("Most Common Genre:", modeGenre);
+        loadRadarChart(allGenres);
     }, 2000);
 
     loadPieChart(avg_review_score.toFixed(1));
