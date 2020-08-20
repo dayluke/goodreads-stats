@@ -42,4 +42,17 @@ function populateStats(bookList) {
     }, 2000);
 
     loadPieChart(avg_review_score.toFixed(1));
+    averageTimePerBook(bookList);
+}
+
+function averageTimePerBook(books) {
+    var totalDays = 0;
+    books.forEach(book => {
+        totalDays += moment(book.dateFinished).diff(book.dateStarted, 'days') || 1;
+        console.log(book.title, moment(book.dateFinished).diff(book.dateStarted, 'days') || 1, 'days');
+    });
+
+    var avg_time_per_book = totalDays / books.length;
+    console.log('Average days to read a book', avg_time_per_book);
+    $('#avg-time-book').text(avg_time_per_book + ' days');
 }
