@@ -1,10 +1,9 @@
 var key = config.apiKey;
-var userId = "100043725"; //26167094
 window.onload = retrieveBooks;
 
 function retrieveBooks() {
 
-    return fetch("https://cors-anywhere.herokuapp.com/https://www.goodreads.com/review/list/" + userId + ".xml?key=" + key + "&v=2&shelf=read&sort=date_read")
+    return fetch("https://cors-anywhere.herokuapp.com/https://www.goodreads.com/review/list/" + user.id + ".xml?key=" + key + "&v=2&shelf=read&sort=date_read")
     .then(res => res.text())
     .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
     .then(function (data) {
@@ -18,7 +17,7 @@ function retrieveBooks() {
             books.push( new Book($(this)) );
         })
 
-        console.log("Books:", books)
+        console.log("Books:", books);
 
         populateStats(books);
         loadAreaChart(books.reverse());
