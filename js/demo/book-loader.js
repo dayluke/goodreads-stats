@@ -1,26 +1,39 @@
+var books = [];
 var key = config.apiKey;
-window.onload = retrieveBooks;
+window.onload = retrieveBooks();
 
-function retrieveBooks() {
+function retrieveBooks(pageIndex = 1) {
 
-    return fetch("https://cors-anywhere.herokuapp.com/https://www.goodreads.com/review/list/" + user.id + ".xml?key=" + key + "&v=2&shelf=read&sort=date_read")
+    return fetch("https://cors-anywhere.herokuapp.com/https://www.goodreads.com/review/list/" + user.id + ".xml?key=" + key + "&v=2&shelf=read&sort=date_read&per_page=100&page=" + pageIndex)
     .then(res => res.text())
     .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
     .then(function (data) {
 
         var xmlResponse = $.parseXML(new XMLSerializer().serializeToString(data));
         var $xml = $(xmlResponse);
+
         var $books = $xml.find("review");
 
-        var books = [];
         $books.each(function() {
             books.push( new Book($(this)) );
         })
 
         console.log("Books:", books);
+        
+        // determine which page/if there are more books here
+        var reviews = $xml.find("reviews")[0];
+        if (reviews.attributes.end.value < reviews.attributes.total.value) {
+            console.log(parseInt(pageIndex));
+            pageIndex++;
+            retrieveBooks(pageIndex);
+            return;
+        }
+        
+        books = books.sort((a,b) => moment(a.dateFinished).diff(b.dateFinished))
+        console.log("Sorted Books:", books);
 
         populateStats(books);
-        loadAreaChart(books.reverse());
+        loadAreaChart(books);
         loadTimeChart(books);
     });
 }
@@ -50,8 +63,8 @@ class Book {
 
     constructor (elem) {
         this.reviewRating = parseInt($(elem).children('rating').text()) || 0;
-        this.dateStarted = this.formatDate($(elem).children('started_at').text());
-        this.dateFinished = this.formatDate($(elem).children('read_at').text());
+        this.dateStarted = this.formatDate($(elem).children('started_at')?.text()) || this.formatDate($(elem).children('date_added').text());
+        this.dateFinished = this.formatDate($(elem).children('read_at')?.text()) || this.formatDate($(elem).children('date_updated').text());
         var book = $(elem).children('book')[0];
         this.title = $(book).children('title').text();
         this.pages = parseInt($(book).children('num_pages').text()) || 0;
@@ -64,6 +77,7 @@ class Book {
 
     formatDate(jumbledDate) {
         // e.g. Mon Aug 17 15:10:29 -0700 2020
+        if (!jumbledDate) return;
         var segments = jumbledDate.split(' ');
         return [segments[2], segments[1], segments[5], segments[3]].join(' ');
     }
