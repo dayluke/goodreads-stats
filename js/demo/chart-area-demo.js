@@ -4,9 +4,7 @@ Chart.defaults.global.defaultFontColor = '#858796';
 
 // Area Chart Example
 function loadAreaChart(bookList) {
-    var ctx = document.getElementById("myAreaChart");
-    var myLineChart = new Chart(ctx, {
-    type: 'line',
+    Chart.Line('myAreaChart', {
         data: {
             // labels: getAreaLabels(bookList),
             datasets: [{
@@ -26,12 +24,19 @@ function loadAreaChart(bookList) {
             }],
         },
         options: {
+            title: {
+                display: true,
+                text: "Number of Pages Read",
+                fontSize: 16,
+                fontColor: "#4e73df",
+                padding: 30
+            },
             maintainAspectRatio: false,
             layout: {
                 padding: {
                     left: 10,
                     right: 25,
-                    top: 25,
+                    top: 0,
                     bottom: 0
                 }
             },

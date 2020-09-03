@@ -4,9 +4,7 @@ Chart.defaults.global.defaultFontColor = '#858796';
 
 // Pie Chart Example
 function loadPieChart(avgRating) {
-    var ctx = document.getElementById("myPieChart");
-    var myPieChart = new Chart(ctx, {
-        type: 'doughnut',
+    Chart.Doughnut('myPieChart', {
         data: {
             labels: ['Average rating'],
             datasets: [{

@@ -4,9 +4,7 @@ Chart.defaults.global.defaultFontColor = '#858796';
 
 // Time Chart
 function loadTimeChart(bookList) {
-    var ctx = document.getElementById('myTimeChart').getContext('2d');
-    var chart = new Chart(ctx, {
-        type: 'line',
+    Chart.Line('myTimeChart', {
         data: {
             datasets: [{
                 label: "Pages",
@@ -25,6 +23,7 @@ function loadTimeChart(bookList) {
             }]
         },
         options: {
+            maintainAspectRatio: false,
             tooltips: {
                 backgroundColor: "rgb(255,255,255)",
                 bodyFontColor: "#858796",
@@ -70,10 +69,10 @@ function loadTimeChart(bookList) {
 
 function getTimeData(books) {
     var data = [];
-    data.push({
-        x: moment(books[0].dateFinished).subtract(5, 'days'),
-        y: 0
-    });
+    // data.push({
+    //     x: moment(books[0].dateFinished).subtract(5, 'days'),
+    //     y: 0
+    // });
     
     for (var i = 0; i < books.length; i++) {
         var bookData = {
@@ -83,6 +82,7 @@ function getTimeData(books) {
         data.push(bookData);
     }
 
+    console.log(JSON.stringify(data));
     return data;
 }
 

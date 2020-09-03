@@ -19,20 +19,19 @@ function loadRadarChart(genreList) {
     // cumulative pages
     // currently reading percentage read
 
-    var ctx = document.getElementById("myRadarChart");
-    var myRadarChart = new Chart(ctx, {
-        type: 'radar',
+    Chart.Radar('myRadarChart', {
         data: {
-        labels: getRadarData(items, 'label'),
-        datasets: [{
-            data: getRadarData(items, 'data'),
-            backgroundColor: 'rgba(28, 200, 138, 0.05)',
-            borderColor: 'rgba(28, 200, 138, 1)',
-            pointHoverBackgroundColor: 'rgba(28, 200, 138, 1)',
-            pointHoverBorderColor: 'rgba(28, 200, 138, 1)',
-        }],
+            labels: getRadarData(items, 'label'),
+            datasets: [{
+                data: getRadarData(items, 'data'),
+                backgroundColor: 'rgba(28, 200, 138, 0.05)',
+                borderColor: 'rgba(28, 200, 138, 1)',
+                pointHoverBackgroundColor: 'rgba(28, 200, 138, 1)',
+                pointHoverBorderColor: 'rgba(28, 200, 138, 1)',
+            }],
         },
         options: {
+            maintainAspectRatio: false,
             scale: {
                 ticks: {
                     maxTicksLimit: 5,
@@ -40,7 +39,6 @@ function loadRadarChart(genreList) {
                     suggestedMax: Math.round(getRadarData(items, 'data')[0] / 5) * 5
                 }
             },
-            maintainAspectRatio: false,
             tooltips: {
                 enabled: false
             },
