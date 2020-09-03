@@ -48,7 +48,8 @@ function populateStats(bookList) {
 function averageTimePerBook(books) {
     var totalDays = 0;
     books.forEach(book => {
-        totalDays += parseFloat(moment(book.dateFinished).diff(book.dateStarted, 'days', true).toFixed(2)) || 1;
+        var days = parseFloat(moment(book.dateFinished).diff(book.dateStarted, 'days', true).toFixed(2)) || 1
+        totalDays += days < 0 ? 1 : days;
         // console.log(book.title, moment(book.dateFinished).diff(book.dateStarted, 'days', true).toFixed(2) || 1, 'days');
     });
 
